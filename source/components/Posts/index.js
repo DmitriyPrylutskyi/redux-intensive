@@ -11,7 +11,7 @@ import { Composer, Catcher, Post, Counter } from 'components';
 export default class Posts extends Component {
     componentDidMount () {
         this.props.actions.fetchPosts();
-        this.props.actions.fetchUsers();
+        // this.props.actions.fetchUsers();
     }
 
     render () {

@@ -1,7 +1,6 @@
 // Core
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
-import { fromJS } from 'immutable';
 import { connect } from 'react-redux';
 
 // Components

@@ -1,5 +1,5 @@
 // Core
-import { call, put, select, delay } from 'redux-saga/effects';
+import { call, put, delay } from 'redux-saga/effects';
 
 // Instruments
 import { api, groupID } from 'config';

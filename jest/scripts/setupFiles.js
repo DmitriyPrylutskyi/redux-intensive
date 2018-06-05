@@ -27,6 +27,7 @@ const responseDataSuccess = {
 };
 
 const responseDataFail = {
+    data:    '',
     message: errorMessage,
 };
 

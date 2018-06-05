@@ -2,12 +2,12 @@
     "runner": "jest-runner",
     "displayName": "test:unit",
     "rootDir": "../",
-    "verbose": false,
+    "verbose": true,
     "notify": true,
     "bail": false,
-    "collectCoverage": false,
+    "collectCoverage": true,
     "collectCoverageFrom": [
-        "<rootDir>/source/bus/auth/*.{js,jsx}",
+        "<rootDir>/source/bus/authentication/*.{js,jsx}",
         "<rootDir>/source/bus/ui/*.{js,jsx}",
         "<rootDir>/source/init/store.js"
     ],
@@ -26,10 +26,10 @@
     ],
     "coverageThreshold": {
         "global": {
-            "branches": 1,
-            "functions": 1,
-            "lines": 1,
-            "statements": 1
+            "branches": 0,
+            "functions": 0,
+            "lines": 0,
+            "statements": 0
         }
     },
     "modulePaths": ["<rootDir>/source", "<rootDir>/node_modules"],

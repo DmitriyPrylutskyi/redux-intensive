@@ -5,14 +5,18 @@ import { fromJS } from 'immutable';
 import { connect } from 'react-redux';
 
 // Components
-import { Spinner, Catcher, Posts } from 'components';
+import { Spinner, Catcher, Posts, Notifications, Navigation } from 'components';
 
 // Instruments
 import { postsActions } from 'bus/posts/actions';
+import { postsActionsAsync } from 'bus/posts/saga/asyncActions';
+import { usersActionsAsync } from 'bus/users/saga/asyncActions';
 
 const mapState = (state) => {
     return {
-        posts: state.posts,
+        isPostsFetching: state.ui.get('isPostsFetching'),
+        posts:           state.posts,
+        profile:         state.profile,
     };
 };
 
@@ -20,7 +24,9 @@ const mapDispatch = (dispatch) => {
     return {
         actions: bindActionCreators(
             {
-                fetchPosts: postsActions.fetchPosts,
+                ...postsActions,
+                ...postsActionsAsync,
+                ...usersActionsAsync,
             },
             dispatch,
         ),
@@ -32,27 +38,14 @@ const mapDispatch = (dispatch) => {
     mapDispatch,
 )
 export default class Feed extends Component {
-    static defaultProps = {
-        isFeedFetching: false,
-        profile:        fromJS({
-            id:     '123',
-            avatar:
-                'http://i0.kym-cdn.com/entries/icons/original/000/000/774/lime-cat.jpg',
-            firstName: 'Cat',
-        }),
-        actions: {
-            fetchPosts: () => {},
-            fetchUsers: () => {},
-            createPost: () => {},
-        },
-    };
-
     render () {
-        const { actions, isFeedFetching, profile, posts } = this.props;
+        const { actions, isPostsFetching, profile, posts } = this.props;
 
         return (
             <>
-                <Spinner isSpinning = { isFeedFetching } />
+                <Spinner isSpinning = { isPostsFetching } />
+                <Navigation />
+                <Notifications />
                 <Catcher>
                     <Posts actions = { actions } posts = { posts } profile = { profile } />
                 </Catcher>

@@ -15,6 +15,7 @@ export default class Notification extends Component {
         this.setState({
             notificationIn: false,
         });
+        clearTimeout(this.timeout);
     };
 
     _handleNotificationAppear = (postman) => {
@@ -25,9 +26,9 @@ export default class Notification extends Component {
             {
                 opacity:    1,
                 onComplete: () => {
-                    setTimeout(this._hideNotification, 5000);
+                    this.timeout = setTimeout(this._hideNotification, 5000);
                 },
-            }
+            },
         );
     };
 
@@ -43,7 +44,7 @@ export default class Notification extends Component {
                 onComplete: () => {
                     hideNotification(id);
                 },
-            }
+            },
         );
     };
 

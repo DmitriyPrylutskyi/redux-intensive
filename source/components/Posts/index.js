@@ -11,7 +11,7 @@ import { Composer, Catcher, Post, Counter } from 'components';
 export default class Posts extends Component {
     componentDidMount () {
         this.props.actions.fetchPosts();
-        // this.props.actions.fetchUsers();
+        this.props.actions.fetchUsersAsync();
     }
 
     render () {
@@ -43,9 +43,13 @@ export default class Posts extends Component {
             );
         });
 
+        // Это компонент Posts
         return (
             <section className = { Styles.wall }>
-                <Composer createPost = { actions.createPost } profile = { profile } />
+                <Composer
+                    createPostAsync = { actions.createPostAsync }
+                    profile = { profile }
+                />
                 <Counter count = { posts.size } />
                 <TransitionGroup>{posts}</TransitionGroup>
             </section>

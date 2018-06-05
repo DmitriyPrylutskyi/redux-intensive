@@ -1,27 +1,46 @@
 // Core
-import { List, Map } from 'immutable';
+import { List, fromJS } from 'immutable';
 
 // Instruments
 import { types } from './types';
 
-const initialState = List([
-    Map({
-        id:      '123',
-        created: 124857189213,
-        likes:   List([]),
-        author:  Map({
-            firstName: 'Jack',
-            lastName:  'Herer',
-            avatar:
-                'http://i0.kym-cdn.com/entries/icons/original/000/000/774/lime-cat.jpg',
-        }),
-    })
-]);
+const initialState = List();
 
 export const postsReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.FETCH_POSTS_SUCCESS:
-            return action.payload;
+            return fromJS(action.payload);
+
+        case types.CREATE_POST:
+            return state.unshift(fromJS(action.payload));
+
+        case types.REMOVE_POST:
+            return state.filter((post) => post.get('id') !== action.payload);
+
+        case types.LIKE_POST:
+            return state.updateIn(
+                [
+                    state.findIndex(
+                        (post) => post.get('id') === action.payload.postId,
+                    ),
+                    'likes'
+                ],
+                (likes) => likes.unshift(action.payload.liker),
+            );
+
+        case types.UNLIKE_POST:
+            return state.updateIn(
+                [
+                    state.findIndex(
+                        (post) => post.get('id') === action.payload.postId,
+                    ),
+                    'likes'
+                ],
+                (likes) =>
+                    likes.filter(
+                        (like) => like.get('id') !== action.payload.likerId,
+                    ),
+            );
 
         default:
             return state;

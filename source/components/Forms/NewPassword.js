@@ -63,12 +63,12 @@ export default class Profile extends Component {
     _handleSubmit = (user) => {
         const {
             setPasswordEditingState,
-            updateProfile,
+            updateProfileAsync,
             isPasswordEditing,
         } = this.props;
 
         if (isPasswordEditing) {
-            updateProfile(user);
+            updateProfileAsync(user);
             setPasswordEditingState(false);
 
             return;

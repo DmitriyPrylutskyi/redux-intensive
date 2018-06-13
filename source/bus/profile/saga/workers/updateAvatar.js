@@ -1,44 +1,40 @@
 // Core
-import { call, put, select } from 'redux-saga/effects';
+import { put, call, apply } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 import { actions } from 'react-redux-form';
 
 // Instruments
-import { api } from 'config';
-import { uiActions } from 'bus/ui/actions';
-import { profileActions } from 'bus/profile/actions';
+import { api } from '../../../../REST';
+import { uiActions } from '../../../ui/actions';
+import { profileActions } from '../../../profile/actions';
 
 export function* callUpdateAvatarWorker ({ payload: [avatar] }) {
     try {
-        yield put(uiActions.setProfileFetchingState(true));
+        yield put(uiActions.setFetchingState(true));
 
-        const token = yield select((state) => state.profile.get('token'));
-        const body = yield new FormData();
+        const avatarFormData = yield new FormData();
 
-        yield call([body, body.append], 'avatar', avatar);
-        // то-же самое что body.append('avatar', avatar);
+        yield call([avatarFormData, avatarFormData.append], 'avatar', avatar);
 
-        const response = yield call(fetch, `${api}/image`, {
-            method:  'POST',
-            headers: {
-                Authorization: token,
-            },
-            body,
-        });
+        const response = yield apply(api, api.profile.updateAvatar, [
+            avatarFormData
+        ]);
 
         const {
             data: { avatar: newAvatar },
             message,
-        } = yield call([response, response.json]);
+        } = yield apply(response, response.json);
 
         if (response.status !== 200) {
             throw new Error(message);
         }
 
+        yield delay(1000);
         yield put(profileActions.updateAvatar(newAvatar));
         yield put(actions.reset('forms.user.profile.avatar'));
     } catch (error) {
-        yield put(uiActions.emitError(error, 'update profile worker'));
+        yield put(uiActions.emitError(error, 'update avatar worker'));
     } finally {
-        yield put(uiActions.setProfileFetchingState(false));
+        yield put(uiActions.setFetchingState(false));
     }
 }

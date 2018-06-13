@@ -1,45 +1,34 @@
+// Core
+import { v4 } from 'uuid';
+
 // Instruments
 import { types } from './types';
 
 export const uiActions = Object.freeze({
+    setFetchingState: (state) => ({
+        type:    types.SET_FETCHING_STATE,
+        payload: state,
+    }),
     emitError: (error, meta = null) => ({
         type:    types.EMIT_ERROR,
         payload: error,
         error:   true,
         meta,
     }),
-    initialize: () => ({
-        type: types.INITIALIZE,
+    showNotification: (message, type = 'info', source = '') => ({
+        type:    types.SHOW_NOTIFICATION,
+        payload: {
+            id: v4(),
+            message,
+            type,
+            source,
+        },
     }),
-    initializeSuccess: () => ({
-        type: types.INITIALIZE_SUCCESS,
+    hideNotification: () => ({
+        type: types.HIDE_NOTIFICATION,
     }),
-    setPostsFetchingState: (postsFetchingState) => ({
-        type:    types.SET_POSTS_FETCHING_STATE,
-        payload: postsFetchingState,
-    }),
-    setAuthFetchingState: (authFetchingState) => ({
-        type:    types.SET_AUTH_FETCHING_STATE,
-        payload: authFetchingState,
-    }),
-    setOnlineState: (onlineState) => ({
+    setOnlineState: (state) => ({
         type:    types.SET_ONLINE_STATE,
-        payload: onlineState,
-    }),
-    setProfileFetchingState: (state) => ({
-        type:    types.SET_PROFILE_FETCHING_STATE,
-        payload: state,
-    }),
-    setProfileEditingState: (state) => ({
-        type:    types.SET_PROFILE_EDITING_STATE,
-        payload: state,
-    }),
-    setAvatarFetchingState: (state) => ({
-        type:    types.SET_AVATAR_EDITING_STATE,
-        payload: state,
-    }),
-    setPasswordEditingState: (state) => ({
-        type:    types.SET_PASSWORD_EDITING_STATE,
         payload: state,
     }),
 });

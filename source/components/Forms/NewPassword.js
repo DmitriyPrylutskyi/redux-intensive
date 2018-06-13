@@ -1,147 +1,93 @@
 // Core
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form, Errors } from 'react-redux-form';
+import { Form } from 'react-redux-form';
 import cx from 'classnames';
 
 // Instruments
 import Styles from './styles.m.css';
-import { validateLength } from 'instruments/validators';
-import { book } from 'navigation/book';
+import { profileActionsAsync } from 'bus/profile/saga/asyncActions';
+import { validateLength } from '../../instruments/validators';
+import { book } from '../../navigation/book';
 
 // Components
-import { Input } from 'components';
+import { Input } from '../../components';
 
-export default class Profile extends Component {
-    _getCancelUpdateButton = () => {
-        const { isPasswordEditing, setPasswordEditingState } = this.props;
-
-        return isPasswordEditing ? (
-            <span
-                className = { Styles.cancelUpdate }
-                onClick = { () => setPasswordEditingState(false) }>
-                cancel update
-            </span>
-        ) : null;
+const mapState = (state) => {
+    return {
+        isFetching: state.ui.get('isFetching'),
     };
+};
 
-    _getSubmitButton = () => {
-        const { isProfileFetching, isPasswordEditing } = this.props;
+const mapDispatch = {
+    updatePasswordAsync: profileActionsAsync.updatePasswordAsync,
+};
 
-        const buttonStyle = cx(Styles.loginSubmit, {
-            [Styles.disabledButton]: isProfileFetching,
-        });
+@connect(
+    mapState,
+    mapDispatch,
+)
+export default class NewPassword extends Component {
+    _submitPassword = (newPassword) => {
+        const { updatePasswordAsync } = this.props;
 
-        return isPasswordEditing ? (
-            <button
-                className = { buttonStyle }
-                disabled = { isProfileFetching }
-                type = 'submit'>
-                {isProfileFetching ? 'Working...' : 'Update Password'}
-            </button>
-        ) : (
-            <button
-                className = { buttonStyle }
-                disabled = { isProfileFetching }
-                type = 'submit'
-                onClick = { this._changePassword }>
-                Change Password
-            </button>
-        );
-    };
-
-    _changePassword = (event) => {
-        const { setPasswordEditingState, isPasswordEditing } = this.props;
-
-        event.preventDefault();
-
-        isPasswordEditing
-            ? setPasswordEditingState(false)
-            : setPasswordEditingState(true);
-    };
-
-    _handleSubmit = (user) => {
-        const {
-            setPasswordEditingState,
-            updateProfileAsync,
-            isPasswordEditing,
-        } = this.props;
-
-        if (isPasswordEditing) {
-            updateProfileAsync(user);
-            setPasswordEditingState(false);
-
-            return;
-        }
-
-        setPasswordEditingState(true);
+        updatePasswordAsync(newPassword);
     };
 
     render () {
-        const { isProfileFetching, isPasswordEditing } = this.props;
+        const { isFetching } = this.props;
 
-        const disabled = isProfileFetching || !isPasswordEditing;
-
-        const disabledInputStyle = cx({
-            [Styles.disabledInput]: disabled,
+        const buttonStyle = cx(Styles.loginSubmit, {
+            [Styles.disabledButton]: isFetching,
         });
 
-        const submitButton = this._getSubmitButton();
-        const cancelUpdateButton = this._getCancelUpdateButton();
+        const newPasswordFormWrapperStyles = cx(
+            Styles.newPasswordFormWrapper,
+            Styles.wrapper,
+        );
 
         return (
             <Form
                 className = { Styles.form }
-                key = '1'
                 model = 'forms.user.password'
-                onSubmit = { this._handleSubmit }>
-                <Errors
-                    messages = { {
-                        valid: () =>
-                            `A password should be at least 5 symbols long`,
-                    } }
-                    model = 'forms.user.password.oldPassword'
-                    show = { ({ submitFailed, touched, errors }) =>
-                        submitFailed || touched && errors.valid
-                    }
-                />
-                <Input
-                    disabled = { disabled }
-                    disabledstyle = { disabledInputStyle }
-                    errors = { {
-                        valid: (password) => validateLength(password, 5),
-                    } }
-                    errorstyle = { Styles.error }
-                    id = 'forms.user.password.oldPassword'
-                    model = 'forms.user.password.oldPassword'
-                    placeholder = 'Old password'
-                    type = 'password'
-                />
-                <Errors
-                    messages = { {
-                        valid: () =>
-                            `A password should be at least 5 symbols long`,
-                    } }
-                    model = 'forms.user.password.newPassword'
-                    show = { ({ submitFailed, touched, errors }) =>
-                        submitFailed || touched && errors.valid
-                    }
-                />
-                <Input
-                    disabled = { disabled }
-                    disabledstyle = { disabledInputStyle }
-                    errors = { {
-                        valid: (password) => validateLength(password, 5),
-                    } }
-                    errorstyle = { Styles.error }
-                    id = 'forms.user.password.newPassword'
-                    model = 'forms.user.password.newPassword'
-                    placeholder = 'New password'
-                    type = 'password'
-                />
-                {submitButton}
-                <i>{cancelUpdateButton}</i>
-                <Link to = { book.profile }>← back</Link>
+                onSubmit = { this._submitPassword }>
+                <div className = { newPasswordFormWrapperStyles }>
+                    <div>
+                        <Input
+                            disabled = { isFetching }
+                            disabledStyle = { Styles.disabledInput }
+                            id = 'forms.user.password.oldPassword'
+                            invalidStyle = { Styles.invalid }
+                            model = 'forms.user.password.oldPassword'
+                            placeholder = 'Old password'
+                            type = 'password'
+                            validators = { {
+                                valid: (password) => !validateLength(password, 5),
+                            } }
+                        />
+                        <Input
+                            disabled = { isFetching }
+                            disabledStyle = { Styles.disabledInput }
+                            id = 'forms.user.password.newPassword'
+                            invalidStyle = { Styles.invalid }
+                            model = 'forms.user.password.newPassword'
+                            placeholder = 'New password'
+                            type = 'password'
+                            validators = { {
+                                valid: (password) => !validateLength(password, 5),
+                            } }
+                        />
+                        <button
+                            className = { buttonStyle }
+                            disabled = { isFetching }
+                            type = 'submit'
+                            onClick = { this._changePassword }>
+                            {isFetching ? 'Working...' : 'Change Password'}
+                        </button>
+                    </div>
+                    <Link to = { book.profile }>← back</Link>
+                </div>
             </Form>
         );
     }

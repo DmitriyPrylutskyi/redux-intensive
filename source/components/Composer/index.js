@@ -1,65 +1,51 @@
 // Core
 import React, { Component } from 'react';
+import { Form, Control } from 'react-redux-form';
 
 // Instruments
 import Styles from './styles.m.css';
 
 export default class Composer extends Component {
-    state = {
-        comment: '',
+    _submitComment = (formData) => {
+        this._createPost(formData);
     };
 
-    _handleSubmit = (event) => {
-        event.preventDefault();
-        this._createPost();
-    };
-
-    _createPost = () => {
-        const { comment } = this.state;
-
+    _createPost = ({ comment }) => {
         if (!comment) {
             return;
         }
 
-        // Это в компоненте Composer
         this.props.createPostAsync(comment);
-
-        this.setState(() => ({
-            comment: '',
-        }));
-    };
-
-    _handleTextareaChange = (event) => {
-        const { value: comment } = event.target;
-
-        this.setState(() => ({ comment }));
     };
 
     _handleTextareaKeyPress = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            this._createPost();
+
+            this.form.submit();
+            this.props.actions.reset('forms.feed');
         }
     };
 
     render () {
         const { profile } = this.props;
-        const { comment } = this.state;
 
         return (
             <section className = { Styles.composer }>
                 <img src = { profile.get('avatar') } />
-                <form onSubmit = { this._handleSubmit }>
-                    <textarea
+                <Form
+                    getRef = { (form) => this.form = form }
+                    model = 'forms.feed'
+                    onSubmit = { this._submitComment }>
+                    <Control.textarea
+                        model = 'forms.feed.comment'
                         placeholder = { `What's on your mind, ${profile.get(
-                            'firstName'
+                            'firstName',
                         )}?` }
-                        value = { comment }
-                        onChange = { this._handleTextareaChange }
                         onKeyPress = { this._handleTextareaKeyPress }
                     />
                     <input type = 'submit' value = 'Post' />
-                </form>
+                </Form>
             </section>
         );
     }

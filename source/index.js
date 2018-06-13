@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter as Router } from 'react-router-redux';
 
 // Instruments
-import './theme/init';
 import { store, history } from './init/store';
+import './theme/init';
 
 // Main
 import Main from './navigation/Main';
@@ -19,3 +19,14 @@ render(
     </Provider>,
     document.getElementById('app'),
 );
+
+// // Intro
+// import Gallery from './intro';
+// import { store } from './intro/redux/store';
+
+// render(
+//     <Provider store = { store }>
+//         <Gallery />
+//     </Provider>,
+//     document.getElementById('app'),
+// );

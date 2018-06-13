@@ -1,71 +1,63 @@
 // Instruments
-import { socket } from 'init/socket';
-import { postsActions } from 'bus/posts/actions';
-import { uiActions } from 'bus/ui/actions';
+import { socket } from '../../init/socket';
+import { uiActions } from '../ui/actions';
+import { postsActions } from '../posts/actions';
 
 export const socketActions = Object.freeze({
     listenConnection: () => (dispatch) => {
         socket.on('connect', () => {
             dispatch(uiActions.setOnlineState(true));
         });
+
         socket.on('disconnect', () => {
             dispatch(uiActions.setOnlineState(false));
         });
     },
+
     listenPosts: () => (dispatch, getState) => {
-        const currentUserId = getState().profile.get('id');
-
         socket.on('create', (response) => {
-            const { data: post, meta } = JSON.parse(response);
+            const { data, meta } = JSON.parse(response);
 
-            if (currentUserId === meta.userID) {
-                return null;
+            if (getState().profile.get('id') === meta.userID) {
+                return;
             }
 
-            dispatch(postsActions.createPost(post));
+            dispatch(postsActions.createPost(data));
         });
 
         socket.on('remove', (response) => {
-            const { data: postId, meta } = JSON.parse(response);
+            const { data, meta } = JSON.parse(response);
 
-            if (currentUserId === meta.userID) {
-                return null;
+            if (getState().profile.get('id') === meta.userID) {
+                return;
             }
 
-            dispatch(postsActions.removePost(postId));
+            dispatch(postsActions.removePost(data));
         });
 
         socket.on('like', (response) => {
-            const {
-                data: { userID, postID },
-                meta,
-            } = JSON.parse(response);
+            const { data, meta } = JSON.parse(response);
 
-            if (currentUserId === meta.userID) {
-                return null;
+            if (getState().profile.get('id') === meta.userID) {
+                return;
             }
 
             if (meta.action === 'like') {
                 const liker = getState()
-                    .users.find((user) => user.get('id') === userID)
+                    .users.find((user) => user.get('id') === data.userID)
                     .delete('avatar');
 
                 dispatch(
                     postsActions.likePost({
-                        postId: postID,
+                        postID: data.postID,
                         liker,
-                    }),
+                    })
                 );
 
-                return null;
+                return;
             }
 
-            dispatch(
-                postsActions.unlikePost({
-                    postId:  postID,
-                    likerId: userID,
-                }),
-            );
+            dispatch(postsActions.unlikePost(data));
         });
     },
 });

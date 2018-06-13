@@ -1,5 +1,7 @@
+// Core
 import { fromJS, List } from 'immutable';
 
+// Instruments
 import { types } from './types';
 
 const initialState = List();
@@ -10,7 +12,7 @@ export const usersReducer = (state = initialState, action) => {
             return fromJS(action.payload);
 
         case types.CLEAR_USERS:
-            return state.clear();
+            return initialState.clear();
 
         default:
             return state;

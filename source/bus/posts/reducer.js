@@ -1,5 +1,5 @@
 // Core
-import { List, fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 
 // Instruments
 import { types } from './types';
@@ -8,7 +8,7 @@ const initialState = List();
 
 export const postsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case types.FETCH_POSTS_SUCCESS:
+        case types.FILL_POSTS:
             return fromJS(action.payload);
 
         case types.CREATE_POST:
@@ -21,7 +21,7 @@ export const postsReducer = (state = initialState, action) => {
             return state.updateIn(
                 [
                     state.findIndex(
-                        (post) => post.get('id') === action.payload.postId,
+                        (post) => post.get('id') === action.payload.postID,
                     ),
                     'likes'
                 ],
@@ -32,15 +32,18 @@ export const postsReducer = (state = initialState, action) => {
             return state.updateIn(
                 [
                     state.findIndex(
-                        (post) => post.get('id') === action.payload.postId,
+                        (post) => post.get('id') === action.payload.postID,
                     ),
                     'likes'
                 ],
                 (likes) =>
                     likes.filter(
-                        (like) => like.get('id') !== action.payload.likerId,
+                        (like) => like.get('id') !== action.payload.userID,
                     ),
             );
+
+        case types.CLEAR_POSTS:
+            return state.clear();
 
         default:
             return state;

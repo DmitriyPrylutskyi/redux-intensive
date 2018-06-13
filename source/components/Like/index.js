@@ -10,7 +10,10 @@ export default class Like extends Component {
     };
 
     _likePost = () => {
-        const { actions: { likePostAsync, unlikePostAsync }, id } = this.props;
+        const {
+            actions: { likePostAsync, unlikePostAsync },
+            id,
+        } = this.props;
 
         this._getLikedByMe() ? unlikePostAsync(id) : likePostAsync(id);
     };
@@ -41,7 +44,7 @@ export default class Like extends Component {
             <ul>
                 {likes.map((like) => (
                     <li key = { like.get('id') }>{`${like.get(
-                        'firstName'
+                        'firstName',
                     )} ${like.get('lastName')}`}</li>
                 ))}
             </ul>
@@ -57,7 +60,9 @@ export default class Like extends Component {
             ? `${profile.get('firstName')} ${profile.get('lastName')}`
             : likes.size === 2 && likedByMe
                 ? `You and ${likes.size - 1} other`
-                : likedByMe ? `You and ${likes.size - 1} others` : likes.size;
+                : likedByMe
+                    ? `You and ${likes.size - 1} others`
+                    : likes.size;
     };
 
     render () {

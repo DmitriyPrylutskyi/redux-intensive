@@ -1,17 +1,44 @@
 // Core
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actions as reduxFormActions } from 'react-redux-form';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 // Instruments
 import Styles from './styles.m.css';
+import { postsActionsAsync } from '../../bus/posts/saga/asyncActions';
+import { usersActionsAsync } from '../../bus/users/saga/asyncActions';
 
 // Components
-import { Composer, Catcher, Post, Counter } from 'components';
+import { Composer, Catcher, Post } from '../../components';
 
+const mapState = (state) => {
+    return {
+        profile: state.profile,
+        posts:   state.posts,
+    };
+};
+
+const mapDispatch = (dispatch) => {
+    return {
+        actions: bindActionCreators(
+            { ...postsActionsAsync, ...usersActionsAsync, ...reduxFormActions },
+            dispatch,
+        ),
+    };
+};
+
+@connect(
+    mapState,
+    mapDispatch,
+)
 export default class Posts extends Component {
     componentDidMount () {
-        this.props.actions.fetchPosts();
-        this.props.actions.fetchUsersAsync();
+        const { actions } = this.props;
+
+        actions.fetchPostsAsync();
+        actions.fetchUsersAsync();
     }
 
     render () {
@@ -43,14 +70,13 @@ export default class Posts extends Component {
             );
         });
 
-        // Это компонент Posts
         return (
-            <section className = { Styles.wall }>
+            <section className = { Styles.posts }>
                 <Composer
+                    actions = { actions }
                     createPostAsync = { actions.createPostAsync }
                     profile = { profile }
                 />
-                <Counter count = { posts.size } />
                 <TransitionGroup>{posts}</TransitionGroup>
             </section>
         );

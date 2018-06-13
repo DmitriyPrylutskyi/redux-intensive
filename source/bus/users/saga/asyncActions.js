@@ -1,3 +1,4 @@
+// Core
 import { asyncTypes } from './asyncTypes';
 
 export const usersActionsAsync = Object.freeze({

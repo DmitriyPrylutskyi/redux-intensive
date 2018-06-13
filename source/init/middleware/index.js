@@ -1,12 +1,12 @@
 // Core
+import { createBrowserHistory } from 'history';
+import { routerMiddleware as createRouterMiddleware } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import { routerMiddleware as createRouterMiddleware } from 'react-router-redux';
-import { createBrowserHistory } from 'history';
 
 // Instruments
 import { customThunk } from './customThunk';
-import { notification } from './notification';
+import { notifications } from './notifications';
 
 const logger = createLogger({
     duration:  true,
@@ -19,17 +19,15 @@ const logger = createLogger({
         error:     () => '#ff0005',
     },
 });
-
-const dev = process.env.NODE_ENV === 'development';
 const history = createBrowserHistory();
-const sagaMiddleware = createSagaMiddleware();
 const routerMiddleware = createRouterMiddleware(history);
+const sagaMiddleware = createSagaMiddleware();
 
 const middleware = [sagaMiddleware, customThunk, routerMiddleware];
 
-if (dev) {
+if (__DEV__) {
+    middleware.push(notifications);
     middleware.push(logger);
-    middleware.push(notification);
 }
 
-export { dev, middleware, sagaMiddleware, history };
+export { middleware, sagaMiddleware, history };

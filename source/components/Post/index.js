@@ -6,7 +6,7 @@ import moment from 'moment';
 import Styles from './styles.m.css';
 
 // Components
-import Like from 'components/Like';
+import { Like } from '../../components';
 
 export default class Post extends Component {
     _getCross = () => {

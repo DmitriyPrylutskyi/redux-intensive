@@ -1,47 +1,48 @@
 // Core
 import React, { Component } from 'react';
+import { Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Switch, withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 import { hot } from 'react-hot-loader';
 
-// Routes
-import Private from './Private';
+// Instruments
+import { socketActions } from '../bus/socket/actions';
+import { authActionsAsync } from '../bus/auth/saga/asyncActions';
+import { socket, joinSocketChannel } from '../init/socket';
+
+// Routing
 import Public from './Public';
+import Private from './Private';
 
 // Components
-import { Loading } from 'components';
+import { Nav, Notification, Loading, Spinner } from '../components';
 
-// Instruments
-import { uiActions } from 'bus/ui/actions';
-import { socketActions } from 'bus/socket/actions';
-import { joinSocketChannel } from 'init/socket';
-import { socket } from 'init/socket';
-
-const mapState = (state) => {
+const mapStateToProps = (state) => {
     return {
-        isAuthenticated: state.authentication.get('isAuthenticated'),
-        isInitialized:   state.ui.get('isInitialized'),
+        isAuthenticated: state.auth.get('isAuthenticated'),
+        isInitialized:   state.auth.get('isInitialized'),
     };
 };
 
-const mapActions = {
-    initialize: uiActions.initialize,
-    ...socketActions,
+const mapDispatchToProps = {
+    initializeAsync:  authActionsAsync.initializeAsync,
+    listenConnection: socketActions.listenConnection,
+    listenPosts:      socketActions.listenPosts,
 };
 
-@hot(module)
 @withRouter
 @connect(
-    mapState,
-    mapActions,
+    mapStateToProps,
+    mapDispatchToProps,
 )
+@hot(module)
 export default class Main extends Component {
     componentDidMount () {
-        const { initialize, listenConnection } = this.props;
+        const { initializeAsync, listenConnection } = this.props;
 
-        initialize();
         joinSocketChannel();
         listenConnection();
+        initializeAsync();
     }
 
     componentWillUnmount () {
@@ -52,12 +53,20 @@ export default class Main extends Component {
     render () {
         const { isAuthenticated, isInitialized, listenPosts } = this.props;
 
+        if (!isInitialized) {
+            return <Loading />;
+        }
+
         return (
-            <Switch>
-                {!isInitialized && <Loading />}
-                {isAuthenticated && <Private listenPosts = { listenPosts } />}
-                <Public />
-            </Switch>
+            <>
+                <Nav location = { this.props.location } />
+                <Notification />
+                <Spinner />
+                <Switch>
+                    {isAuthenticated && <Private listenPosts = { listenPosts } />}
+                    <Public />
+                </Switch>
+            </>
         );
     }
 }

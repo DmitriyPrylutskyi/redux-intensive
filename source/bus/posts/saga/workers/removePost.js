@@ -1,34 +1,32 @@
 // Core
-import { call, put, select } from 'redux-saga/effects';
+import { put, take, apply } from 'redux-saga/effects';
 
 // Instruments
-import { api } from 'config';
-import { uiActions } from 'bus/ui/actions';
-import { postsActions } from 'bus/posts/actions';
+import { api } from '../../../../REST';
+import { uiActions } from '../../../ui/actions';
+import { postsActions } from '../../../posts/actions';
+import { asyncTypes } from '../asyncTypes';
 
-export function* callRemovePostWorker ({ payload: id }) {
-    try {
-        yield put(uiActions.setPostsFetchingState(true));
+export function* callRemovePostWorker () {
+    while (true) {
+        try {
+            const { payload: id } = yield take(asyncTypes.REMOVE_POST_ASYNC);
 
-        const token = yield select((state) => state.profile.get('token'));
+            yield put(uiActions.setFetchingState(true));
 
-        const response = yield call(fetch, `${api}/feed/${id}`, {
-            method:  'DELETE',
-            headers: {
-                Authorization: token,
-            },
-        });
+            const response = yield apply(api, api.posts.remove, [id]);
 
-        if (response.status !== 204) {
-            const { message } = yield call([response, response.json]);
+            if (response.status !== 204) {
+                const { message } = yield apply(response, response.json);
 
-            throw new Error(message);
+                throw new Error(message);
+            }
+
+            yield put(postsActions.removePost(id));
+        } catch (error) {
+            yield put(uiActions.emitError(error, 'remove post worker'));
+        } finally {
+            yield put(uiActions.setFetchingState(false));
         }
-
-        yield put(postsActions.removePost(id));
-    } catch (error) {
-        yield put(uiActions.emitError(error, 'removePostWorker'));
-    } finally {
-        yield put(uiActions.setPostsFetchingState(false));
     }
 }

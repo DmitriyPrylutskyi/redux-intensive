@@ -1,3 +1,4 @@
+// Types
 import { types } from './types';
 
 export const usersActions = Object.freeze({

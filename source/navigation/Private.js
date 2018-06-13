@@ -4,10 +4,10 @@ import { Switch, Route, Redirect } from 'react-router';
 
 // Instruments
 import { book } from './book';
-import { socket } from 'init/socket';
+import { socket } from '../init/socket';
 
-// Pages
-import { Feed, Profile, NewPassword } from 'pages';
+// Containers
+import { Feed, Profile, NewPassword } from '../pages';
 
 export default class Private extends Component {
     componentDidMount () {

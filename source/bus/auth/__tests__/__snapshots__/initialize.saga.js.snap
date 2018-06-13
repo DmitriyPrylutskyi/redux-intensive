@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`initialize saga: should authenticate if localStorage contains a token should call authenticateAsync action 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "PUT": Object {
+    "action": Object {
+      "payload": undefined,
+      "type": "AUTHENTICATE_ASYNC",
+    },
+    "channel": null,
+  },
+}
+`;
+
+exports[`initialize saga: should authenticate if localStorage contains a token should extract a token from localStorage 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "token",
+    ],
+    "context": LocalStorage {
+      "getItem": [MockFunction],
+      "setItem": [MockFunction] {
+        "calls": Array [
+          Array [
+            "token",
+            "TEST_TOKEN",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
+      "storage": Object {
+        "token": "\\"TEST_TOKEN\\"",
+      },
+    },
+    "fn": [MockFunction],
+  },
+}
+`;
+
+exports[`initialize saga: should initialize if localStorage does not contain a token should dispatch initialize action 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "PUT": Object {
+    "action": Object {
+      "type": "INITIALIZE",
+    },
+    "channel": null,
+  },
+}
+`;
+
+exports[`initialize saga: should initialize if localStorage does not contain a token should yield extract a token from localStorage 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "token",
+    ],
+    "context": LocalStorage {
+      "getItem": [MockFunction],
+      "setItem": [MockFunction] {
+        "calls": Array [
+          Array [
+            "token",
+            "TEST_TOKEN",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
+      "storage": Object {},
+    },
+    "fn": [MockFunction],
+  },
+}
+`;

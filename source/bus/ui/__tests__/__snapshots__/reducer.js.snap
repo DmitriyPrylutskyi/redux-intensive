@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ui reducer: should handle hideNotification action 1`] = `
+Immutable.Map {
+  "notification": Immutable.Map {},
+  "isOnline": false,
+  "isFetching": false,
+}
+`;
+
+exports[`ui reducer: should handle setFetchingState action 1`] = `
+Immutable.Map {
+  "notification": Immutable.Map {},
+  "isOnline": false,
+  "isFetching": true,
+}
+`;
+
+exports[`ui reducer: should handle setOnlineState action 1`] = `
+Immutable.Map {
+  "notification": Immutable.Map {},
+  "isOnline": true,
+  "isFetching": false,
+}
+`;
+
+exports[`ui reducer: should handle showNotification action 1`] = `
+Immutable.Map {
+  "notification": Immutable.Map {
+    "id": "123",
+    "message": "Login success!",
+    "type": "info",
+    "source": "",
+  },
+  "isOnline": false,
+  "isFetching": false,
+}
+`;
+
+exports[`ui reducer: should return initial state by default 1`] = `
+Immutable.Map {
+  "notification": Immutable.Map {},
+  "isOnline": false,
+  "isFetching": false,
+}
+`;

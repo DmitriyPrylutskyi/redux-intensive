@@ -5,6 +5,7 @@ import { source, build } from '../paths';
 import { DefinePlugin, ContextReplacementPlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackTemplate from 'html-webpack-template';
+import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 
 export const generateCommonConfiguration = () => {
     const BUILD_ENV = process.env.BUILD_ENV;
@@ -68,12 +69,19 @@ export const generateCommonConfiguration = () => {
         },
         plugins: [
             new HtmlWebpackPlugin({
-                inject:      false,
-                template:    HtmlWebpackTemplate,
-                title:       'Redux invensive boilerplate',
+                inject:   false,
+                template: HtmlWebpackTemplate,
+                title:    'Redux intensive boilerplate',
+                meta:     [
+                    {
+                        name:    'viewport',
+                        content:
+                            'user-scalable=no, width=device-width, initial-scale=1',
+                    }
+                ],
                 appMountIds: ['app', 'spinner'],
-                mobile:      true,
             }),
+            new FaviconsWebpackPlugin('./source/theme/assets/favicon.png'),
             new ContextReplacementPlugin(/moment\/locale$/, /ru/),
             new DefinePlugin({
                 __ENV__:  JSON.stringify(BUILD_ENV),

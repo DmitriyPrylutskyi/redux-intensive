@@ -1,36 +1,36 @@
 // Core
-import { call, put, select } from 'redux-saga/effects';
+import { put, take, select, apply } from 'redux-saga/effects';
 
 // Instruments
-import { api } from 'config';
-import { uiActions } from 'bus/ui/actions';
-import { postsActions } from 'bus/posts/actions';
+import { api } from '../../../../REST';
+import { uiActions } from '../../../ui/actions';
+import { postsActions } from '../../../posts/actions';
+import { asyncTypes } from '../asyncTypes';
 
-export function* callUnlikePostWorker ({ payload: postId }) {
-    try {
-        yield put(uiActions.setPostsFetchingState(true));
+export function* callUnlikePostWorker () {
+    while (true) {
+        try {
+            const { payload: postID } = yield take(
+                asyncTypes.UNLIKE_POST_ASYNC,
+            );
 
-        const token = yield select((state) => state.profile.get('token'));
+            yield put(uiActions.setFetchingState(true));
 
-        const response = yield call(fetch, `${api}/feed/like/${postId}`, {
-            method:  'PUT',
-            headers: {
-                Authorization: token,
-            },
-        });
+            const response = yield apply(api, api.posts.like, [postID]);
 
-        if (response.status !== 204) {
-            const { message } = yield call([response, response.json]);
+            if (response.status !== 204) {
+                const { message } = yield apply(response, response.json);
 
-            throw new Error(message);
+                throw new Error(message);
+            }
+
+            const userID = yield select((state) => state.profile.get('id'));
+
+            yield put(postsActions.unlikePost({ postID, userID }));
+        } catch (error) {
+            yield put(uiActions.emitError(error, 'unlike post worker'));
+        } finally {
+            yield put(uiActions.setFetchingState(false));
         }
-
-        const likerId = yield select((state) => state.profile.get('id'));
-
-        yield put(postsActions.unlikePost({ likerId, postId }));
-    } catch (error) {
-        yield put(uiActions.emitError(error, 'unlikePostWorker'));
-    } finally {
-        yield put(uiActions.setPostsFetchingState(false));
     }
 }

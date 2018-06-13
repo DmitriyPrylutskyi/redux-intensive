@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from 'react-router';
 // Instruments
 import { book } from './book';
 
-// Pages
+// Components
 import { Login, Signup } from 'pages';
 
 export default class Public extends Component {

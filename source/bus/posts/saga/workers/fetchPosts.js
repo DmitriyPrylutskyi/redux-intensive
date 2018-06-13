@@ -1,35 +1,34 @@
 // Core
-import { call, put, delay } from 'redux-saga/effects';
+import { put, take, apply } from 'redux-saga/effects';
 
 // Instruments
-import { api, groupID } from 'config';
-import { postsActions } from 'bus/posts/actions';
-import { uiActions } from 'bus/ui/actions';
+import { api } from '../../../../REST';
+import { uiActions } from '../../../ui/actions';
+import { postsActions } from '../../../posts/actions';
+import { asyncTypes } from '../asyncTypes';
 
 export function* callFetchPostsWorker () {
-    try {
-        // fetch(/* url, options */)
-        yield put(uiActions.setPostsFetchingState(true));
+    while (true) {
+        try {
+            yield take(asyncTypes.FETCH_POSTS_ASYNC);
+            yield put(uiActions.setFetchingState(true));
 
-        const response = yield call(fetch, `${api}/feed`, {
-            method:  'GET',
-            headers: {
-                'x-no-auth': groupID,
-            },
-        });
+            const response = yield apply(api, api.posts.fetch);
 
-        yield delay(2000);
+            const { data: posts, message } = yield apply(
+                response,
+                response.json,
+            );
 
-        const { data: posts, message } = yield call([response, response.json]);
+            if (response.status !== 200) {
+                throw new Error(message);
+            }
 
-        if (response.status !== 200) {
-            throw new Error(message);
+            yield put(postsActions.fillPosts(posts));
+        } catch (error) {
+            yield put(uiActions.emitError(error, 'fetch posts worker'));
+        } finally {
+            yield put(uiActions.setFetchingState(false));
         }
-
-        yield put(postsActions.fetchPostsSuccess(posts));
-    } catch (error) {
-        yield put(postsActions.fetchPostsFail(error));
-    } finally {
-        yield put(uiActions.setPostsFetchingState(false));
     }
 }

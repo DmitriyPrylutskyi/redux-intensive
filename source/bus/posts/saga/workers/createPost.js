@@ -1,36 +1,37 @@
 // Core
-import { call, put, select } from 'redux-saga/effects';
+import { put, take, apply } from 'redux-saga/effects';
 
 // Instruments
-import { api } from 'config';
-import { uiActions } from 'bus/ui/actions';
-import { postsActions } from 'bus/posts/actions';
+import { api } from '../../../../REST';
+import { uiActions } from '../../../ui/actions';
+import { postsActions } from '../../../posts/actions';
+import { asyncTypes } from '../asyncTypes';
 
-export function* callCreatePostWorker ({ payload: comment }) {
-    try {
-        yield put(uiActions.setPostsFetchingState(true));
+export function* callCreatePostWorker () {
+    while (true) {
+        try {
+            const { payload: comment } = yield take(
+                asyncTypes.CREATE_POST_ASYNC,
+            );
 
-        const token = yield select((state) => state.profile.get('token'));
+            yield put(uiActions.setFetchingState(true));
 
-        const response = yield call(fetch, `${api}/feed`, {
-            method:  'POST',
-            headers: {
-                Authorization:  token,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ comment }),
-        });
+            const response = yield apply(api, api.posts.create, [comment]);
 
-        const { data: post, message } = yield call([response, response.json]);
+            const { data: post, message } = yield apply(
+                response,
+                response.json,
+            );
 
-        if (response.status !== 200) {
-            throw new Error(message);
+            if (response.status !== 200) {
+                throw new Error(message);
+            }
+
+            yield put(postsActions.createPost(post));
+        } catch (error) {
+            yield put(uiActions.emitError(error, 'create post worker'));
+        } finally {
+            yield put(uiActions.setFetchingState(false));
         }
-
-        yield put(postsActions.createPost(post));
-    } catch (error) {
-        yield put(uiActions.emitError(error, 'createPostWorker'));
-    } finally {
-        yield put(uiActions.setPostsFetchingState(false));
     }
 }

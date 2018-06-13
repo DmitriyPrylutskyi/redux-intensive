@@ -1,19 +1,19 @@
 // Core
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 
 // Instruments
 import { rootReducer } from './rootReducer';
-import { sagaMiddleware, middleware, dev, history } from './middleware';
+import { middleware, sagaMiddleware, history } from './middleware';
 import { rootSaga } from './rootSaga';
 
 const devtools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
-const composeEnhancers = dev && devtools ? devtools : compose;
+const composeEnhancers = __DEV__ && devtools ? devtools : compose;
 
 const store = createStore(
     rootReducer,
     composeEnhancers(applyMiddleware(...middleware)),
 );
 
-export { store, history };
-
 sagaMiddleware.run(rootSaga);
+
+export { store, history };

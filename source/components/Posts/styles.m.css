@@ -1,9 +1,9 @@
-.wall {
+.posts {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
-    padding: 65px 0;
+    min-height: calc(100vh - 42px);
+    padding: 10px 0;
     background-color: var(--paletteColor3);
 
     & .postInStart {

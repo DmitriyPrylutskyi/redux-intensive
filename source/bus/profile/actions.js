@@ -1,16 +1,16 @@
-// Instruments
+// Types
 import { types } from './types';
 
 export const profileActions = Object.freeze({
-    fillProfile: (profile) => ({
+    fillProfile: (user) => ({
         type:    types.FILL_PROFILE,
-        payload: profile,
+        payload: user,
+    }),
+    updateAvatar: (avatarUrl) => ({
+        type:    types.UPDATE_AVATAR,
+        payload: avatarUrl,
     }),
     clearProfile: () => ({
         type: types.CLEAR_PROFILE,
-    }),
-    updateAvatar: (avatar) => ({
-        type:    types.UPDATE_AVATAR,
-        payload: avatar,
     }),
 });

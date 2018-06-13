@@ -1,13 +1,17 @@
-// Core
+// Types
 import { asyncTypes } from './asyncTypes';
 
 export const profileActionsAsync = Object.freeze({
-    updateProfileAsync: (profile) => ({
-        type:    asyncTypes.UPDATE_PROFILE_ASYNC,
-        payload: profile,
+    updateNameAsync: (newName) => ({
+        type:    asyncTypes.UPDATE_NAME_ASYNC,
+        payload: newName,
     }),
     updateAvatarAsync: (avatar) => ({
         type:    asyncTypes.UPDATE_AVATAR_ASYNC,
         payload: avatar,
+    }),
+    updatePasswordAsync: (newPassword) => ({
+        type:    asyncTypes.UPDATE_PASSWORD_ASYNC,
+        payload: newPassword,
     }),
 });

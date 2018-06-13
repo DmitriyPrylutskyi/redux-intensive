@@ -1,22 +1,19 @@
 // Core
 import { combineForms } from 'react-redux-form';
 
-// Instruments
-import { token } from 'config';
-
 export const formsReducer = combineForms(
     {
-        signup: {
-            firstName: 'Dima',
-            lastName:  'Vakatsiienko',
-            email:     'test1@email.com',
-            password:  '12345',
-            invite:    token,
-        },
         login: {
-            email:    'test1@email.com',
+            email:    'dima1@dima1.com',
             password: '12345',
             remember: true,
+        },
+        signup: {
+            firstName: '',
+            lastName:  '',
+            email:     '',
+            password:  '',
+            invite:    'akI2Kynnvwic',
         },
         user: {
             profile: {
@@ -28,6 +25,9 @@ export const formsReducer = combineForms(
                 oldPassword: '',
                 newPassword: '',
             },
+        },
+        feed: {
+            comment: '',
         },
     },
     'forms',

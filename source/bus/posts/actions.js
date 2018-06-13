@@ -1,34 +1,28 @@
-// Instruments
+// Types
 import { types } from './types';
 
 export const postsActions = Object.freeze({
-    fetchPosts: () => ({
-        type: types.FETCH_POSTS,
-    }),
-    fetchPostsSuccess: (posts) => ({
-        type:    types.FETCH_POSTS_SUCCESS,
+    fillPosts: (posts) => ({
+        type:    types.FILL_POSTS,
         payload: posts,
     }),
-    fetchPostsFail: (error) => ({
-        type:    types.FETCH_POSTS_FAIL,
-        payload: error,
-        error:   true,
-    }),
-
     createPost: (post) => ({
         type:    types.CREATE_POST,
         payload: post,
     }),
-    removePost: (id) => ({
+    removePost: (postId) => ({
         type:    types.REMOVE_POST,
-        payload: id,
+        payload: postId,
     }),
-    likePost: (likedPostIds) => ({
+    likePost: (likedPostIDs) => ({
         type:    types.LIKE_POST,
-        payload: likedPostIds,
+        payload: likedPostIDs,
     }),
-    unlikePost: (unlikedPostIds) => ({
+    unlikePost: (unlikedPostIDs) => ({
         type:    types.UNLIKE_POST,
-        payload: unlikedPostIds,
+        payload: unlikedPostIDs,
+    }),
+    clearPosts: () => ({
+        type: types.CLEAR_POSTS,
     }),
 });

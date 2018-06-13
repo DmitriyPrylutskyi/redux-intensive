@@ -1,38 +1,36 @@
 // Core
-import { call, put, select } from 'redux-saga/effects';
+import { put, take, select, apply } from 'redux-saga/effects';
 
 // Instruments
-import { api } from 'config';
-import { uiActions } from 'bus/ui/actions';
-import { postsActions } from 'bus/posts/actions';
+import { api } from '../../../../REST';
+import { uiActions } from '../../../ui/actions';
+import { postsActions } from '../../../posts/actions';
+import { asyncTypes } from '../asyncTypes';
 
-export function* callLikePostWorker ({ payload: postId }) {
-    try {
-        yield put(uiActions.setPostsFetchingState(true));
+export function* callLikePostWorker () {
+    while (true) {
+        try {
+            const { payload: postID } = yield take(asyncTypes.LIKE_POST_ASYNC);
 
-        const token = yield select((state) => state.profile.get('token'));
+            yield put(uiActions.setFetchingState(true));
 
-        const response = yield call(fetch, `${api}/feed/like/${postId}`, {
-            method:  'PUT',
-            headers: {
-                Authorization: token,
-            },
-        });
+            const response = yield apply(api, api.posts.like, [postID]);
 
-        if (response.status !== 204) {
-            const { message } = yield call([response, response.json]);
+            if (response.status !== 204) {
+                const { message } = yield apply(response, response.json);
 
-            throw new Error(message);
+                throw new Error(message);
+            }
+
+            const liker = yield select((state) => {
+                return state.profile.remove('avatar').remove('token');
+            });
+
+            yield put(postsActions.likePost({ postID, liker }));
+        } catch (error) {
+            yield put(uiActions.emitError(error, 'like post worker'));
+        } finally {
+            yield put(uiActions.setFetchingState(false));
         }
-
-        const liker = yield select((state) =>
-            state.profile.removeAll(['avatar', 'token']),
-        );
-
-        yield put(postsActions.likePost({ liker, postId }));
-    } catch (error) {
-        yield put(uiActions.emitError(error, 'likePostWorker'));
-    } finally {
-        yield put(uiActions.setPostsFetchingState(false));
     }
 }

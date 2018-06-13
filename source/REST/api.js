@@ -5,8 +5,8 @@ export const api = {
     get token () {
         return localStorage.getItem('token');
     },
-    getHeaders (json) {
-        if (json) {
+    getHeaders (isJson) {
+        if (isJson) {
             return {
                 Authorization:  this.token,
                 'Content-Type': 'application/json',

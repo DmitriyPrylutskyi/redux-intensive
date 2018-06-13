@@ -4,9 +4,9 @@ import { combineForms } from 'react-redux-form';
 export const formsReducer = combineForms(
     {
         login: {
-            email:    'dima1@dima1.com',
-            password: '12345',
-            remember: true,
+            email:    '',
+            password: '',
+            remember: false,
         },
         signup: {
             firstName: '',
@@ -27,7 +27,9 @@ export const formsReducer = combineForms(
             },
         },
         feed: {
-            comment: '',
+            composer: {
+                comment: '',
+            },
         },
     },
     'forms',

@@ -60,7 +60,7 @@ export default class NewPassword extends Component {
                             id = 'forms.user.password.oldPassword'
                             invalidStyle = { Styles.invalid }
                             model = 'forms.user.password.oldPassword'
-                            placeholder = 'Old password'
+                            placeholder = 'Старый пароль'
                             type = 'password'
                             validators = { {
                                 valid: (password) => !validateLength(password, 5),
@@ -72,7 +72,7 @@ export default class NewPassword extends Component {
                             id = 'forms.user.password.newPassword'
                             invalidStyle = { Styles.invalid }
                             model = 'forms.user.password.newPassword'
-                            placeholder = 'New password'
+                            placeholder = 'Новый пароль'
                             type = 'password'
                             validators = { {
                                 valid: (password) => !validateLength(password, 5),
@@ -83,10 +83,10 @@ export default class NewPassword extends Component {
                             disabled = { isFetching }
                             type = 'submit'
                             onClick = { this._changePassword }>
-                            {isFetching ? 'Working...' : 'Change Password'}
+                            {isFetching ? 'Загрузка...' : 'Сменить пароль'}
                         </button>
                     </div>
-                    <Link to = { book.profile }>← back</Link>
+                    <Link to = { book.profile }>← назад</Link>
                 </div>
             </Form>
         );

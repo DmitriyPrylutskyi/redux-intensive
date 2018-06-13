@@ -1,7 +1,7 @@
 export const book = Object.freeze({
-    login:       '/login',
-    signUp:      '/sign-up',
-    feed:        '/feed',
-    profile:     '/profile',
-    newPassword: '/new-password',
+    login:       '/redux-intensive-boilerplate/login',
+    signUp:      '/redux-intensive-boilerplate/sign-up',
+    feed:        '/redux-intensive-boilerplate/feed',
+    profile:     '/redux-intensive-boilerplate/profile',
+    newPassword: '/redux-intensive-boilerplate/new-password',
 });

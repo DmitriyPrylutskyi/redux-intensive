@@ -5,10 +5,47 @@ Object {
   "@@redux-saga/IO": true,
   "PUT": Object {
     "action": Object {
-      "payload": undefined,
       "type": "AUTHENTICATE_ASYNC",
     },
     "channel": null,
+  },
+}
+`;
+
+exports[`initialize saga: should authenticate if localStorage contains a token should extract a remember flag from localStorage 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "remember",
+    ],
+    "context": LocalStorage {
+      "getItem": [MockFunction],
+      "setItem": [MockFunction] {
+        "calls": Array [
+          Array [
+            "token",
+            "TEST_TOKEN",
+          ],
+          Array [
+            "remember",
+            true,
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
+      "storage": Object {},
+    },
+    "fn": [MockFunction],
   },
 }
 `;
@@ -28,17 +65,23 @@ Object {
             "token",
             "TEST_TOKEN",
           ],
+          Array [
+            "remember",
+            true,
+          ],
         ],
         "results": Array [
           Object {
             "isThrow": false,
             "value": undefined,
           },
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
         ],
       },
-      "storage": Object {
-        "token": "\\"TEST_TOKEN\\"",
-      },
+      "storage": Object {},
     },
     "fn": [MockFunction],
   },
@@ -57,7 +100,45 @@ Object {
 }
 `;
 
-exports[`initialize saga: should initialize if localStorage does not contain a token should yield extract a token from localStorage 1`] = `
+exports[`initialize saga: should initialize if localStorage does not contain a token should extract no remember flag from localStorage 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "remember",
+    ],
+    "context": LocalStorage {
+      "getItem": [MockFunction],
+      "setItem": [MockFunction] {
+        "calls": Array [
+          Array [
+            "token",
+            "TEST_TOKEN",
+          ],
+          Array [
+            "remember",
+            true,
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
+      "storage": Object {},
+    },
+    "fn": [MockFunction],
+  },
+}
+`;
+
+exports[`initialize saga: should initialize if localStorage does not contain a token should extract no token from localStorage 1`] = `
 Object {
   "@@redux-saga/IO": true,
   "CALL": Object {
@@ -72,8 +153,16 @@ Object {
             "token",
             "TEST_TOKEN",
           ],
+          Array [
+            "remember",
+            true,
+          ],
         ],
         "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
           Object {
             "isThrow": false,
             "value": undefined,

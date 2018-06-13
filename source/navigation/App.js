@@ -1,8 +1,7 @@
 // Core
 import React, { Component } from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import { hot } from 'react-hot-loader';
 
 // Instruments
@@ -36,7 +35,7 @@ const mapDispatchToProps = {
     mapDispatchToProps,
 )
 @hot(module)
-export default class Main extends Component {
+export default class App extends Component {
     componentDidMount () {
         const { initializeAsync, listenConnection } = this.props;
 

@@ -21,11 +21,13 @@ export function* callLoginWorker ({ payload: credentials }) {
         }
 
         if (credentials.remember) {
-            yield apply(localStorage, localStorage.setItem, [
-                'token',
-                profile.token
-            ]);
+            yield apply(localStorage, localStorage.setItem, ['remember', true]);
         }
+
+        yield apply(localStorage, localStorage.setItem, [
+            'token',
+            profile.token
+        ]);
 
         yield put(profileActions.fillProfile(profile));
 
@@ -37,7 +39,7 @@ export function* callLoginWorker ({ payload: credentials }) {
         );
         yield put(authActions.authenticate());
         yield put(actions.reset('forms.login'));
-        yield put(uiActions.showNotification('Welcome!'));
+        yield put(uiActions.showNotification('Добро пожаловать!'));
     } catch (error) {
         yield put(uiActions.emitError(error, 'login worker'));
     } finally {

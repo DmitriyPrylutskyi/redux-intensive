@@ -26,7 +26,7 @@ export function* callChangePasswordWorker ({
         }
 
         yield put(actions.reset('forms.user.password'));
-        yield put(uiActions.showNotification('Password changed'));
+        yield put(uiActions.showNotification('Пароль успешно изменён'));
     } catch (error) {
         yield put(uiActions.emitError(error, 'update profile worker'));
     } finally {

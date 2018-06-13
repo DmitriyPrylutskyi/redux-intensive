@@ -10,9 +10,14 @@ const clone = saga.clone();
 describe('initialize saga:', () => {
     describe('should authenticate if localStorage contains a token', () => {
         localStorage.setItem('token', __.token);
+        localStorage.setItem('remember', true);
+
+        test('should extract a remember flag from localStorage', () => {
+            expect(clone.next().value).toMatchSnapshot();
+        });
 
         test('should extract a token from localStorage', () => {
-            expect(clone.next().value).toMatchSnapshot();
+            expect(clone.next(true).value).toMatchSnapshot();
         });
 
         test('should call authenticateAsync action', () => {
@@ -22,14 +27,22 @@ describe('initialize saga:', () => {
         test('should finish', () => {
             const finish = clone.next();
 
+            console.log('→ finish.value', finish);
+
             expect(finish.value).toBeNull();
             expect(finish.done).toBe(true);
         });
     });
 
     describe('should initialize if localStorage does not contain a token', () => {
-        test('should yield extract a token from localStorage', () => {
-            localStorage.removeItem('token');
+        localStorage.removeItem('token');
+        localStorage.removeItem('remember');
+
+        test('should extract no remember flag from localStorage', () => {
+            expect(saga.next().value).toMatchSnapshot();
+        });
+
+        test('should extract no token from localStorage', () => {
             expect(saga.next().value).toMatchSnapshot();
         });
 

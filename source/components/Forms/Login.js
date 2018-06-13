@@ -53,7 +53,7 @@ export default class LoginForm extends Component {
                             id = 'forms.login.email'
                             invalidStyle = { Styles.invalid }
                             model = 'forms.login.email'
-                            placeholder = 'Email'
+                            placeholder = 'Почта'
                             validators = { {
                                 valid: (email) => validateEmail(email),
                             } }
@@ -64,7 +64,7 @@ export default class LoginForm extends Component {
                             id = 'forms.login.password'
                             invalidStyle = { Styles.invalid }
                             model = 'forms.login.password'
-                            placeholder = 'Password'
+                            placeholder = 'Пароль'
                             type = 'password'
                             validators = { {
                                 valid: (password) => !validateLength(password, 5),
@@ -76,13 +76,13 @@ export default class LoginForm extends Component {
                                 model = 'forms.login.remember'
                                 type = 'checkbox'
                             />
-                            Remember me?
+                            Запомнить меня
                         </label>
                         <button
                             className = { buttonStyle }
                             disabled = { isFetching }
                             type = 'submit'>
-                            {isFetching ? 'Working...' : 'Log In'}
+                            {isFetching ? 'Загрузка...' : 'Войти'}
                         </button>
                     </div>
                 </div>

@@ -63,10 +63,19 @@ describe('login saga:', () => {
             );
         });
 
+        test('localStorage should contain a «remember» flag', () => {
+            localStorage.setItem('remember', true);
+
+            expect(saga.next(__.responseDataSuccess).value).toEqual(
+                apply(localStorage, localStorage.setItem, ['remember', true]),
+            );
+            expect(localStorage.getItem('remember')).toBe(JSON.stringify(true));
+        });
+
         test('localStorage should contain a token', () => {
             localStorage.setItem('token', __.token);
 
-            expect(saga.next(__.responseDataSuccess).value).toEqual(
+            expect(saga.next().value).toEqual(
                 apply(localStorage, localStorage.setItem, ['token', __.token]),
             );
             expect(localStorage.getItem('token')).toBe(
@@ -114,7 +123,7 @@ describe('login saga:', () => {
 
         test('should dispatch showNotification action', () => {
             expect(saga.next().value).toEqual(
-                put(uiActions.showNotification('Welcome!')),
+                put(uiActions.showNotification('Добро пожаловать!')),
             );
         });
 

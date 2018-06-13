@@ -8,7 +8,9 @@ Object {
   },
   "forms": Object {
     "feed": Object {
-      "comment": "",
+      "composer": Object {
+        "comment": "",
+      },
     },
     "forms": Object {
       "$form": Object {
@@ -16,12 +18,14 @@ Object {
         "focus": false,
         "initialValue": Object {
           "feed": Object {
-            "comment": "",
+            "composer": Object {
+              "comment": "",
+            },
           },
           "login": Object {
-            "email": "dima1@dima1.com",
-            "password": "12345",
-            "remember": true,
+            "email": "",
+            "password": "",
+            "remember": false,
           },
           "signup": Object {
             "email": "",
@@ -56,12 +60,14 @@ Object {
         "validity": Object {},
         "value": Object {
           "feed": Object {
-            "comment": "",
+            "composer": Object {
+              "comment": "",
+            },
           },
           "login": Object {
-            "email": "dima1@dima1.com",
-            "password": "12345",
-            "remember": true,
+            "email": "",
+            "password": "",
+            "remember": false,
           },
           "signup": Object {
             "email": "",
@@ -88,7 +94,9 @@ Object {
           "errors": Object {},
           "focus": false,
           "initialValue": Object {
-            "comment": "",
+            "composer": Object {
+              "comment": "",
+            },
           },
           "intents": Array [],
           "model": "forms.feed",
@@ -103,26 +111,52 @@ Object {
           "validating": false,
           "validity": Object {},
           "value": Object {
-            "comment": "",
+            "composer": Object {
+              "comment": "",
+            },
           },
         },
-        "comment": Object {
-          "errors": Object {},
-          "focus": false,
-          "initialValue": "",
-          "intents": Array [],
-          "model": "forms.feed.comment",
-          "pending": false,
-          "pristine": true,
-          "retouched": false,
-          "submitFailed": false,
-          "submitted": false,
-          "touched": false,
-          "valid": true,
-          "validated": false,
-          "validating": false,
-          "validity": Object {},
-          "value": "",
+        "composer": Object {
+          "$form": Object {
+            "errors": Object {},
+            "focus": false,
+            "initialValue": Object {
+              "comment": "",
+            },
+            "intents": Array [],
+            "model": "forms.feed.composer",
+            "pending": false,
+            "pristine": true,
+            "retouched": false,
+            "submitFailed": false,
+            "submitted": false,
+            "touched": false,
+            "valid": true,
+            "validated": false,
+            "validating": false,
+            "validity": Object {},
+            "value": Object {
+              "comment": "",
+            },
+          },
+          "comment": Object {
+            "errors": Object {},
+            "focus": false,
+            "initialValue": "",
+            "intents": Array [],
+            "model": "forms.feed.composer.comment",
+            "pending": false,
+            "pristine": true,
+            "retouched": false,
+            "submitFailed": false,
+            "submitted": false,
+            "touched": false,
+            "valid": true,
+            "validated": false,
+            "validating": false,
+            "validity": Object {},
+            "value": "",
+          },
         },
       },
       "login": Object {
@@ -130,9 +164,9 @@ Object {
           "errors": Object {},
           "focus": false,
           "initialValue": Object {
-            "email": "dima1@dima1.com",
-            "password": "12345",
-            "remember": true,
+            "email": "",
+            "password": "",
+            "remember": false,
           },
           "intents": Array [],
           "model": "forms.login",
@@ -147,15 +181,15 @@ Object {
           "validating": false,
           "validity": Object {},
           "value": Object {
-            "email": "dima1@dima1.com",
-            "password": "12345",
-            "remember": true,
+            "email": "",
+            "password": "",
+            "remember": false,
           },
         },
         "email": Object {
           "errors": Object {},
           "focus": false,
-          "initialValue": "dima1@dima1.com",
+          "initialValue": "",
           "intents": Array [],
           "model": "forms.login.email",
           "pending": false,
@@ -168,12 +202,12 @@ Object {
           "validated": false,
           "validating": false,
           "validity": Object {},
-          "value": "dima1@dima1.com",
+          "value": "",
         },
         "password": Object {
           "errors": Object {},
           "focus": false,
-          "initialValue": "12345",
+          "initialValue": "",
           "intents": Array [],
           "model": "forms.login.password",
           "pending": false,
@@ -186,12 +220,12 @@ Object {
           "validated": false,
           "validating": false,
           "validity": Object {},
-          "value": "12345",
+          "value": "",
         },
         "remember": Object {
           "errors": Object {},
           "focus": false,
-          "initialValue": true,
+          "initialValue": false,
           "intents": Array [],
           "model": "forms.login.remember",
           "pending": false,
@@ -204,7 +238,7 @@ Object {
           "validated": false,
           "validating": false,
           "validity": Object {},
-          "value": true,
+          "value": false,
         },
       },
       "signup": Object {
@@ -517,9 +551,9 @@ Object {
       },
     },
     "login": Object {
-      "email": "dima1@dima1.com",
-      "password": "12345",
-      "remember": true,
+      "email": "",
+      "password": "",
+      "remember": false,
     },
     "signup": Object {
       "email": "",

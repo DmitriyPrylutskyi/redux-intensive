@@ -15,7 +15,7 @@ export default class Composer extends Component {
             return;
         }
 
-        this.props.createPostAsync(comment);
+        this.props.actions.createPostAsync(comment);
     };
 
     _handleTextareaKeyPress = (event) => {
@@ -35,16 +35,16 @@ export default class Composer extends Component {
                 <img src = { profile.get('avatar') } />
                 <Form
                     getRef = { (form) => this.form = form }
-                    model = 'forms.feed'
+                    model = 'forms.feed.composer'
                     onSubmit = { this._submitComment }>
                     <Control.textarea
-                        model = 'forms.feed.comment'
+                        model = 'forms.feed.composer.comment'
                         placeholder = { `What's on your mind, ${profile.get(
                             'firstName',
                         )}?` }
                         onKeyPress = { this._handleTextareaKeyPress }
                     />
-                    <input type = 'submit' value = 'Post' />
+                    <input type = 'submit' value = 'Запостить' />
                 </Form>
             </section>
         );

@@ -59,7 +59,7 @@ export default class Profile extends Component {
                 onSubmit = { this._submitUserInfo }>
                 <div className = { Styles.wrapper }>
                     <div>
-                        <h1>Welcome, {profile.get('firstName')}</h1>
+                        <h1>Привет, {profile.get('firstName')}</h1>
                         <img src = { profile.get('avatar') } />
                         <Control.file
                             className = { Styles.fileInput }
@@ -68,14 +68,14 @@ export default class Profile extends Component {
                             model = 'forms.user.profile.avatar'
                             name = 'file'
                         />
-                        <label htmlFor = 'file'>Choose new avatar</label>
+                        <label htmlFor = 'file'>Выбери новый аватар</label>
                         <Input
                             disabled = { isFetching }
                             disabledStyle = { Styles.disabledInput }
                             id = 'forms.user.profile.firstName'
                             invalidStyle = { Styles.invalid }
                             model = 'forms.user.profile.firstName'
-                            placeholder = 'First name'
+                            placeholder = 'Имя'
                             validators = { {
                                 valid: (name) => !validateLength(name, 1),
                             } }
@@ -86,7 +86,7 @@ export default class Profile extends Component {
                             id = 'forms.user.profile.lastName'
                             invalidStyle = { Styles.invalid }
                             model = 'forms.user.profile.lastName'
-                            placeholder = 'Last name'
+                            placeholder = 'Фамилия'
                             validators = { {
                                 valid: (lastName) => !validateLength(lastName, 1),
                             } }
@@ -95,10 +95,10 @@ export default class Profile extends Component {
                             className = { buttonStyle }
                             disabled = { isFetching }
                             type = 'submit'>
-                            {isFetching ? 'Working...' : 'Update Profile'}
+                            {isFetching ? 'Загрузкм...' : 'Обновить профиль'}
                         </button>
                     </div>
-                    <Link to = { book.newPassword }>change password →</Link>
+                    <Link to = { book.newPassword }>сменить пароль →</Link>
                 </div>
             </Form>
         );

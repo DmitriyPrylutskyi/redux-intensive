@@ -9,9 +9,8 @@ export const authActionsAsync = Object.freeze({
         type:    asyncTypes.LOGIN_ASYNC,
         payload: credentials,
     }),
-    authenticateAsync: (token) => ({
-        type:    asyncTypes.AUTHENTICATE_ASYNC,
-        payload: token,
+    authenticateAsync: () => ({
+        type: asyncTypes.AUTHENTICATE_ASYNC,
     }),
     signupAsync: (userData) => ({
         type:    asyncTypes.SIGNUP_ASYNC,

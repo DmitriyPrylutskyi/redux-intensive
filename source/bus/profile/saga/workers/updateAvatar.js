@@ -1,5 +1,5 @@
 // Core
-import { put, call, apply } from 'redux-saga/effects';
+import { put, apply } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import { actions } from 'react-redux-form';
 
@@ -14,7 +14,7 @@ export function* callUpdateAvatarWorker ({ payload: [avatar] }) {
 
         const avatarFormData = yield new FormData();
 
-        yield call([avatarFormData, avatarFormData.append], 'avatar', avatar);
+        yield apply(avatarFormData, avatarFormData.append, ['avatar', avatar]);
 
         const response = yield apply(api, api.profile.updateAvatar, [
             avatarFormData

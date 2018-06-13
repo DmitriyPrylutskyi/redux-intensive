@@ -53,7 +53,7 @@ export default class SignupForm extends Component {
                             id = 'forms.signup.firstName'
                             invalidStyle = { Styles.invalid }
                             model = 'forms.signup.firstName'
-                            placeholder = 'First name'
+                            placeholder = 'Имя'
                             type = 'text'
                             validators = { {
                                 valid: (firstName) =>
@@ -66,7 +66,7 @@ export default class SignupForm extends Component {
                             id = 'forms.signup.lastName'
                             invalidStyle = { Styles.invalid }
                             model = 'forms.signup.lastName'
-                            placeholder = 'Last name'
+                            placeholder = 'Фамилия'
                             type = 'text'
                             validators = { {
                                 valid: (lastName) => !validateLength(lastName, 1),
@@ -78,7 +78,7 @@ export default class SignupForm extends Component {
                             id = 'forms.signup.email'
                             invalidStyle = { Styles.invalid }
                             model = 'forms.signup.email'
-                            placeholder = 'Email'
+                            placeholder = 'Почта'
                             type = 'text'
                             validators = { {
                                 valid: (email) => validateEmail(email),
@@ -90,30 +90,17 @@ export default class SignupForm extends Component {
                             id = 'forms.signup.password'
                             invalidStyle = { Styles.invalid }
                             model = 'forms.signup.password'
-                            placeholder = 'Password'
+                            placeholder = 'Пароль'
                             type = 'password'
                             validators = { {
                                 valid: (password) => !validateLength(password, 5),
-                            } }
-                        />
-                        <Input
-                            disabled = { isFetching }
-                            disabledStyle = { Styles.disabledInput }
-                            id = 'forms.signup.invite'
-                            invalidStyle = { Styles.invalid }
-                            model = 'forms.signup.invite'
-                            placeholder = 'Invite key'
-                            type = 'password'
-                            validators = { {
-                                valid: (invite) =>
-                                    !validateLength(invite, 12, 12),
                             } }
                         />
                         <button
                             className = { buttonStyle }
                             disabled = { isFetching }
                             type = 'submit'>
-                            {isFetching ? 'Working...' : 'Create Account ✓'}
+                            {isFetching ? 'Загрузка...' : 'Создать аккаунт ✓'}
                         </button>
                     </div>
                 </div>

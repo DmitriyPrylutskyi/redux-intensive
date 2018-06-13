@@ -8,13 +8,13 @@ import { ConnectedRouter as Router } from 'react-router-redux';
 import { store, history } from './init/store';
 import './theme/init';
 
-// Main
-import Main from './navigation/Main';
+// App
+import App from './navigation/App';
 
 render(
     <Provider store = { store }>
         <Router history = { history }>
-            <Main />
+            <App />
         </Router>
     </Provider>,
     document.getElementById('app'),

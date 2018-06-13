@@ -22,46 +22,33 @@ const mapStateToProps = (state) => {
     { logoutAsync: authActionsAsync.logoutAsync },
 )
 export default class Nav extends Component {
-    _getOnlineStatus = () => {
-        const { isOnline } = this.props;
-        const statusStyle = cx(Styles.status, {
-            [Styles.online]:  isOnline,
-            [Styles.offline]: !isOnline,
-        });
-
-        return (
-            <div className = { statusStyle }>
-                <div>{isOnline ? 'Online' : 'Offline'}</div>
-                <span />
-            </div>
-        );
-    };
     _getNav = () => {
         const { isAuthenticated, profile } = this.props;
 
-        const onlineStatus = this._getOnlineStatus();
-
         return isAuthenticated ?
             <>
-                {onlineStatus}
-                <NavLink activeClassName = { Styles.active } to = { book.profile }>
-                    <img src = { profile.get('avatar') } />
-                    {profile.get('firstName')}
-                </NavLink>
-                <NavLink activeClassName = { Styles.active } to = { book.feed }>
-                    Feed
-                </NavLink>
-                <button onClick = { this._logout }>Log Out</button>
+                <div>
+                    <NavLink activeClassName = { Styles.active } to = { book.profile }>
+                        <img src = { profile.get('avatar') } />
+                        {profile.get('firstName')}
+                    </NavLink>
+                    <NavLink activeClassName = { Styles.active } to = { book.feed }>
+                        Стена
+                    </NavLink>
+                </div>
+                <button onClick = { this._logout }>Выйти</button>
             </>
             :
             <>
-                {onlineStatus}
-                <NavLink activeClassName = { Styles.active } to = { book.login }>
-                    Log In
-                </NavLink>
-                <NavLink activeClassName = { Styles.active } to = { book.signUp }>
-                    Sign Up
-                </NavLink>
+                <div>
+                    <NavLink activeClassName = { Styles.active } to = { book.login }>
+                        Войти
+                    </NavLink>
+                    <NavLink activeClassName = { Styles.active } to = { book.signUp }>
+                        Создать аккаунт
+                    </NavLink>
+                </div>
+                <button className = { Styles.hidden }>Выйти</button>
             </>
         ;
     };
@@ -73,6 +60,20 @@ export default class Nav extends Component {
     render () {
         const navigation = this._getNav();
 
-        return <section className = { Styles.navigation }>{navigation}</section>;
+        const { isOnline } = this.props;
+        const statusStyle = cx(Styles.status, {
+            [Styles.online]:  isOnline,
+            [Styles.offline]: !isOnline,
+        });
+
+        return (
+            <section className = { Styles.navigation }>
+                <div className = { statusStyle }>
+                    <div>{isOnline ? 'Онлайн' : 'Офлайн'}</div>
+                    <span />
+                </div>
+                {navigation}
+            </section>
+        );
     }
 }

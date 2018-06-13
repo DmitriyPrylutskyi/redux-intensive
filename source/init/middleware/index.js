@@ -23,10 +23,14 @@ const history = createBrowserHistory();
 const routerMiddleware = createRouterMiddleware(history);
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [sagaMiddleware, customThunk, routerMiddleware];
+const middleware = [
+    sagaMiddleware,
+    customThunk,
+    routerMiddleware,
+    notifications
+];
 
 if (__DEV__) {
-    middleware.push(notifications);
     middleware.push(logger);
 }
 

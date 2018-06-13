@@ -17,9 +17,8 @@ describe('auth actions async', () => {
     });
 
     test('authenticate async ', () => {
-        expect(authActionsAsync.authenticateAsync(__.token)).toEqual({
-            type:    asyncTypes.AUTHENTICATE_ASYNC,
-            payload: __.token,
+        expect(authActionsAsync.authenticateAsync()).toEqual({
+            type: asyncTypes.AUTHENTICATE_ASYNC,
         });
     });
 

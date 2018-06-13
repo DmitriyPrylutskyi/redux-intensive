@@ -1,5 +1,6 @@
 // Core
 import React, { Component } from 'react';
+import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
 
 // Instruments
@@ -9,8 +10,6 @@ import { changePhoto } from '../../redux/actions';
 class Gallery extends Component {
     _showNextPhoto = () => {
         const { currentPhoto } = this.props;
-
-        console.log('→ currentPhoto', currentPhoto);
 
         this.props.changePhoto(currentPhoto + 1);
     };
@@ -44,7 +43,9 @@ const mapDispatch = {
     changePhoto,
 };
 
-export default connect(
-    mapState,
-    mapDispatch,
-)(Gallery);
+export default hot(module)(
+    connect(
+        mapState,
+        mapDispatch,
+    )(Gallery),
+);

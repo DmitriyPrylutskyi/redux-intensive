@@ -6,7 +6,7 @@ import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackTemplate from 'html-webpack-template';
 
-export const loadFonts = (REPOSITORY_NAME) => ({
+export const loadFonts = () => ({
     module: {
         rules: [
             {
@@ -16,9 +16,6 @@ export const loadFonts = (REPOSITORY_NAME) => ({
                     loader:  'file-loader',
                     options: {
                         name: 'fonts/[name].[hash:5].[ext]',
-                        // publicPath: REPOSITORY_NAME
-                        //     ? `/${process.env.REPOSITORY_NAME}/`
-                        //     : '',
                     },
                 },
             }
@@ -26,7 +23,7 @@ export const loadFonts = (REPOSITORY_NAME) => ({
     },
 });
 
-export const loadImages = (REPOSITORY_NAME) => ({
+export const loadImages = () => ({
     module: {
         rules: [
             {
@@ -38,9 +35,6 @@ export const loadImages = (REPOSITORY_NAME) => ({
                         fallback: 'file-loader',
                         limit:    8192,
                         name:     'images/[name].[hash:5].[ext]',
-                        // publicPath: REPOSITORY_NAME
-                        //     ? `/${process.env.REPOSITORY_NAME}/`
-                        //     : '/',
                     },
                 },
             }
@@ -49,7 +43,7 @@ export const loadImages = (REPOSITORY_NAME) => ({
 });
 
 export const setupFavicon = () => ({
-    plugins: [new FaviconsWebpackPlugin('./source/theme/assets/favicon.png')],
+    plugins: [new FaviconsWebpackPlugin('./static/icons/favicon.png')],
 });
 
 export const setupHtml = () => ({

@@ -23,8 +23,8 @@ export const generateCommonConfiguration = () => {
     return merge(
         // Loaders
         loadJavaScript(),
-        loadFonts(REPOSITORY_NAME),
-        loadImages(REPOSITORY_NAME),
+        loadFonts(),
+        loadImages(),
 
         // Plugins
         setupHtml(),
@@ -42,9 +42,7 @@ export const generateCommonConfiguration = () => {
             },
             output: {
                 path:       build,
-                publicPath: process.env.REPOSITORY_NAME
-                    ? `/${process.env.REPOSITORY_NAME}`
-                    : '/',
+                publicPath: REPOSITORY_NAME ? `/${REPOSITORY_NAME}/` : '/',
             },
             resolve: {
                 extensions: [

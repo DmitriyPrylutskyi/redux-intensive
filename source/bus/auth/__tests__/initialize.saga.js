@@ -27,8 +27,6 @@ describe('initialize saga:', () => {
         test('should finish', () => {
             const finish = clone.next();
 
-            console.log('→ finish.value', finish);
-
             expect(finish.value).toBeNull();
             expect(finish.done).toBe(true);
         });

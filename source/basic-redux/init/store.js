@@ -1,5 +1,5 @@
 // Core
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { createLogger } from 'redux-logger';
 
 // Reducer
@@ -19,4 +19,17 @@ const logger = createLogger({
     },
 });
 
-export const store = createStore(rootReducer, applyMiddleware(logger));
+const persistedState = JSON.parse(localStorage.getItem('gallery'));
+const devtools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+const composerEnhancers = devtools ? devtools : compose;
+const enhancedStore = composerEnhancers(applyMiddleware(logger));
+
+export const store = persistedState
+    ? createStore(rootReducer, persistedState, enhancedStore)
+    : createStore(rootReducer, enhancedStore);
+
+store.subscribe(() => {
+    const state = store.getState();
+
+    localStorage.setItem('gallery', JSON.stringify(state));
+});

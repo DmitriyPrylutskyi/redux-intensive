@@ -13,7 +13,10 @@ export default class Post extends Component {
         const { profile, author } = this.props;
 
         return profile.get('id') === author.get('id') ? (
-            <span className = { Styles.cross } onClick = { this._removePost } />
+            <span
+                className = { Styles.cross }
+                onClick = { this._removePost }
+            />
         ) : null;
     };
 
@@ -23,7 +26,7 @@ export default class Post extends Component {
         actions.removePostAsync(id);
     };
 
-    render () {
+    render() {
         const {
             actions,
             comment,

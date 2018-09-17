@@ -18,4 +18,18 @@ export class Posts {
 
         return data;
     }
+
+    async like(postId) {
+        const response = await fetch(`${MAIN_URL}/feed/like/${postId}`, {
+            method:  'PUT',
+            headers: {
+                Authorization: this.token,
+            },
+        });
+
+        if (response.status !== 204) {
+            const { message } = await response.json();
+            throw new Error(message);
+        }
+    }
 }

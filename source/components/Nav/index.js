@@ -1,5 +1,6 @@
 // Core
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import cx from 'classnames';
 
@@ -8,65 +9,73 @@ import Styles from './styles.m.css';
 import { book } from '../../navigation/book';
 import { mockedProfile } from '../../instruments/mockedData';
 
-@withRouter
+// Actions
+import { logoutAsync } from '../../bus/auth/actions';
+
+const mapState = state => {
+    return {
+        isAuthenticated: state.auth.get('isAuthenticated'),
+        profile: state.profile,
+    };
+};
+
+@connect(
+    mapState,
+    { logoutAsync },
+)
 export default class Nav extends Component {
     static defaultProps = {
         // State
-        profile:         mockedProfile,
-        isAuthenticated: true,
-        isOnline:        false,
-
-        // Actions
-        logoutAsync: () => {},
+        isOnline: false,
     };
 
     _getNav = () => {
         const { isAuthenticated, profile } = this.props;
 
-        return isAuthenticated ?
+        return isAuthenticated ? (
             <>
                 <div>
-                    <NavLink activeClassName = { Styles.active } to = { book.profile }>
-                        <img src = { profile.get('avatar') } />
+                    <NavLink activeClassName={Styles.active} to={book.profile}>
+                        <img src={profile.get('avatar')} />
                         {profile.get('firstName')}
                     </NavLink>
-                    <NavLink activeClassName = { Styles.active } to = { book.feed }>
+                    <NavLink activeClassName={Styles.active} to={book.feed}>
                         Стена
                     </NavLink>
                 </div>
-                <button onClick = { this._logout }>Выйти</button>
+                <button onClick={this._logout}>Выйти</button>
             </>
-            :
+        ) : (
             <>
                 <div>
-                    <NavLink activeClassName = { Styles.active } to = { book.login }>
+                    <NavLink activeClassName={Styles.active} to={book.login}>
                         Войти
                     </NavLink>
-                    <NavLink activeClassName = { Styles.active } to = { book.signUp }>
+                    <NavLink activeClassName={Styles.active} to={book.signUp}>
                         Создать аккаунт
                     </NavLink>
                 </div>
-                <button className = { Styles.hidden }>Выйти</button>
+                <button className={Styles.hidden}>Выйти</button>
             </>
-        ;
+        );
     };
 
     _logout = () => {
         this.props.logoutAsync();
     };
 
-    render () {
+    render() {
         const { isOnline } = this.props;
 
         const navigation = this._getNav();
         const statusStyle = cx(Styles.status, {
-            [Styles.online]:  isOnline,
+            [Styles.online]: isOnline,
             [Styles.offline]: !isOnline,
         });
 
         return (
-            <section className = { Styles.navigation }>
-                <div className = { statusStyle }>
+            <section className={Styles.navigation}>
+                <div className={statusStyle}>
                     <div>{isOnline ? 'Онлайн' : 'Офлайн'}</div>
                     <span />
                 </div>

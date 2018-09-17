@@ -1,16 +1,16 @@
 // Core
-import { takeEvery, all, call } from 'redux-saga/effects';
+import { takeEvery } from 'redux-saga/effects';
 
 // Types
 import { types } from '../types';
 
 // Workers
 import { fetchPostsWorker } from './workers/fetchPostsWorker';
-
-function* watchFetchPosts() {
-    yield takeEvery(types.FETCH_POSTS_ASYNC, fetchPostsWorker);
-}
+import { likePostWorker } from './workers/likePostWorker';
+import { unlikePostWorker } from './workers/unlikePostWorker';
 
 export function* watchPosts() {
-    yield all([ call(watchFetchPosts) ]);
+    yield takeEvery(types.FETCH_POSTS_ASYNC, fetchPostsWorker);
+    yield takeEvery(types.LIKE_POST_ASYNC, likePostWorker);
+    yield takeEvery(types.UNLIKE_POST_ASYNC, unlikePostWorker);
 }

@@ -55,6 +55,7 @@ export default class LoginForm extends Component {
 
                     return (
                         <Form className={Styles.form}>
+                        🔥🔥🔥
                             <div className={centeredWrapperStyle}>
                                 <div>
                                     <Field

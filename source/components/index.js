@@ -27,5 +27,5 @@ export {
     Notification,
     Post,
     Spinner,
-    Posts
+    Posts,
 };

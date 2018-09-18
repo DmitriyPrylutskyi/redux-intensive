@@ -1,5 +1,6 @@
 // Core
 import { put, apply } from 'redux-saga/effects';
+import { actions } from 'react-redux-form';
 
 // Instruments
 import { api } from '../../../../API';
@@ -20,6 +21,13 @@ export function* loginWorker(action) {
             'token',
             profile.token,
         ]);
+        const { firstName, lastName } = profile;
+        yield put(
+            actions.merge('forms.user.profile', {
+                firstName,
+                lastName,
+            }),
+        );
 
         yield put(authenticate());
         yield put(fillProfile(profile));

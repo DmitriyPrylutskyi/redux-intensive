@@ -15,6 +15,7 @@ import { logoutAsync } from '../../bus/auth/actions';
 const mapState = state => {
     return {
         isAuthenticated: state.auth.get('isAuthenticated'),
+        isOnline: state.ui.get('isOnline'),
         profile: state.profile,
     };
 };
@@ -24,11 +25,6 @@ const mapState = state => {
     { logoutAsync },
 )
 export default class Nav extends Component {
-    static defaultProps = {
-        // State
-        isOnline: false,
-    };
-
     _getNav = () => {
         const { isAuthenticated, profile } = this.props;
 

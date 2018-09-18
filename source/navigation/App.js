@@ -11,6 +11,10 @@ import { Loading } from '../components';
 
 // Actions
 import { initializeAsync } from '../bus/auth/actions';
+import { listenConnection, listenPosts } from '../bus/socket/actions';
+
+// Socket
+import { socket, joinSocketChannel } from '../init/socket';
 
 const mapState = state => {
     return {
@@ -23,19 +27,29 @@ const mapState = state => {
 @withRouter
 @connect(
     mapState,
-    { initializeAsync },
+    { initializeAsync, listenConnection, listenPosts },
 )
 export default class App extends Component {
     componentDidMount() {
         this.props.initializeAsync();
+        this.props.listenConnection();
+        joinSocketChannel();
+    }
+
+    componentWillUnmount() {
+        socket.removeAllListeners();
     }
     render() {
-        const { isAuthenticated, isInitialized } = this.props;
+        const { isAuthenticated, isInitialized, listenPosts } = this.props;
 
         if (!isInitialized) {
             return <Loading />;
         }
 
-        return isAuthenticated ? <Private /> : <Public />;
+        return isAuthenticated ? (
+            <Private listenPosts={listenPosts} socket={socket} />
+        ) : (
+            <Public />
+        );
     }
 }

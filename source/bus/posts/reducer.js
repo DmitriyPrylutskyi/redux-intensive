@@ -11,6 +11,13 @@ export const postsReducer = (state = initialState, action) => {
         case types.FILL_POSTS:
             return fromJS(action.payload); // List(Map, Map, Map)
 
+        case types.CREATE_POST:
+            return List([ fromJS(action.payload), ...state ]);
+            // return state.unshift(fromJS(action.payload));
+
+        case types.REMOVE_POST:
+            return state.filter((post) => post.get('id') !== action.payload);
+
         case types.LIKE_POST: {
             const index = state.findIndex(
                 (post) => post.get('id') === action.payload.postId,

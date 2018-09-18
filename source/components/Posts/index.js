@@ -16,6 +16,8 @@ import {
     fetchPostsAsync,
     likePostAsync,
     unlikePostAsync,
+    createPostAsync,
+    removePostAsync,
 } from '../../bus/posts/actions';
 
 const mapStateToProps = state => {
@@ -28,7 +30,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         actions: bindActionCreators(
-            { fetchPostsAsync, likePostAsync, unlikePostAsync },
+            {
+                fetchPostsAsync,
+                likePostAsync,
+                unlikePostAsync,
+                createPostAsync,
+                removePostAsync,
+            },
             dispatch,
         ),
     };

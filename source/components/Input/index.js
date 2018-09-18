@@ -8,7 +8,7 @@ const Input = (props) => {
     return (
         <Control.text
             { ...restProps }
-            mapProps = { {
+            mapProps = {{
                 className: (input) => {
                     if (props.disabled) {
                         return disabledStyle;
@@ -17,7 +17,7 @@ const Input = (props) => {
                         return invalidStyle;
                     }
                 },
-            } }
+            }}
         />
     );
 };

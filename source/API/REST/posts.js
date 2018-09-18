@@ -32,4 +32,37 @@ export class Posts {
             throw new Error(message);
         }
     }
+
+    async create(comment) {
+        const response = await fetch(`${MAIN_URL}/feed`, {
+            method:  'POST',
+            headers: {
+                Authorization:  this.token,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ comment }),
+        });
+
+        const { data: post, message } = await response.json();
+
+        if (response.status !== 200) {
+            throw new Error(message);
+        }
+
+        return post;
+    }
+
+    async remove(postId) {
+        const response = await fetch(`${MAIN_URL}/feed/${postId}`, {
+            method:  'DELETE',
+            headers: {
+                Authorization: this.token,
+            },
+        });
+
+        if (response.status !== 204) {
+            const { message } = await response.json();
+            throw new Error(message);
+        }
+    }
 }

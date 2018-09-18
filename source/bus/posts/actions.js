@@ -21,6 +21,20 @@ export const unlikePostAsync = (postId) => {
     };
 };
 
+export const createPostAsync = (comment) => {
+    return {
+        type:    types.CREATE_POST_ASYNC,
+        payload: comment,
+    };
+};
+
+export const removePostAsync = (postId) => {
+    return {
+        type:    types.REMOVE_POST_ASYNC,
+        payload: postId,
+    };
+};
+
 // Sync
 export const fillPosts = (posts) => {
     return {
@@ -40,5 +54,19 @@ export const unlikePost = (unlikedPostData) => {
     return {
         type:    types.UNLIKE_POST,
         payload: unlikedPostData,
+    };
+};
+
+export const createPost = (post) => {
+    return {
+        type:    types.CREATE_POST,
+        payload: post,
+    };
+};
+
+export const removePost = (postId) => {
+    return {
+        type:    types.REMOVE_POST,
+        payload: postId,
     };
 };

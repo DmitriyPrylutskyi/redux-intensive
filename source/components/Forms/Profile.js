@@ -1,8 +1,10 @@
 // Core
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Control } from 'react-redux-form';
+import { Form, Control, actions } from 'react-redux-form';
+import { bindActionCreators } from 'redux';
 import cx from 'classnames';
+import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
 // Instruments
@@ -13,18 +15,43 @@ import { book } from '../../navigation/book';
 // Components
 import { Input } from '../../components';
 
+// import { loginAsync } from '../../bus/auth/actions';
+
+const mapState = state => {
+    return {
+        isFetching: state.ui.get('isFetching'),
+        profile: state.profile,
+    };
+};
+
+// const mapDispatch = dispatch => {
+//     return {
+//         actions: bindActionCreators({ ...actions }, dispatch),
+//     };
+// };
+
+@connect(
+    mapState,
+    // { change: actions.change }
+)
 export default class Profile extends Component {
     static defaultProps = {
         // State
         isFetching: false,
-        profile:    Map(),
 
         // Actions
-        updateNameAsync:   () => {},
+        updateNameAsync: () => {},
         updateAvatarAsync: () => {},
     };
 
-    _submitUserInfo = (userInfo) => {
+    // componentDidMount() {
+    //     const { change, profile } = this.props;
+
+    //     change('forms.user.profile.firstName', profile.get('firstName'));
+    //     change('forms.user.profile.lastName', profile.get('lastName'));
+    // }
+
+    _submitUserInfo = userInfo => {
         const { updateNameAsync, updateAvatarAsync } = this.props;
 
         if (userInfo.avatar.length) {
@@ -38,7 +65,7 @@ export default class Profile extends Component {
         updateNameAsync({ firstName, lastName });
     };
 
-    render () {
+    render() {
         const { profile, isFetching } = this.props;
 
         const buttonStyle = cx(Styles.loginSubmit, {
@@ -47,46 +74,52 @@ export default class Profile extends Component {
         const buttonMessage = isFetching ? 'Загрузка...' : 'Обновить профиль';
 
         return (
-            <Form className = { Styles.form } model = 'forms.user.profile' onSubmit = { this._submitUserInfo }>
-                <div className = { Styles.wrapper }>
+            <Form
+                className={Styles.form}
+                model="forms.user.profile"
+                onSubmit={this._submitUserInfo}>
+                <div className={Styles.wrapper}>
                     <div>
                         <h1>Привет, {profile.get('firstName')}</h1>
-                        <img src = { profile.get('avatar') } />
+                        <img src={profile.get('avatar')} />
                         <Control.file
-                            className = { Styles.fileInput }
-                            disabled = { isFetching }
-                            id = 'file'
-                            model = 'forms.user.profile.avatar'
-                            name = 'file'
+                            className={Styles.fileInput}
+                            disabled={isFetching}
+                            id="file"
+                            model="forms.user.profile.avatar"
+                            name="file"
                         />
-                        <label htmlFor = 'file'>Выбери новый аватар</label>
+                        <label htmlFor="file">Выбери новый аватар</label>
                         <Input
-                            disabled = { isFetching }
-                            disabledStyle = { Styles.disabledInputRedux }
-                            id = 'forms.user.profile.firstName'
-                            invalidStyle = { Styles.invalidInput }
-                            model = 'forms.user.profile.firstName'
-                            placeholder = 'Имя'
-                            validators = { {
-                                valid: (name) => !validateLength(name, 1),
-                            } }
+                            disabled={isFetching}
+                            disabledStyle={Styles.disabledInputRedux}
+                            id="forms.user.profile.firstName"
+                            invalidStyle={Styles.invalidInput}
+                            model="forms.user.profile.firstName"
+                            placeholder="Имя"
+                            validators={{
+                                valid: name => !validateLength(name, 1),
+                            }}
                         />
                         <Input
-                            disabled = { isFetching }
-                            disabledStyle = { Styles.disabledInputRedux }
-                            id = 'forms.user.profile.lastName'
-                            invalidStyle = { Styles.invalidInput }
-                            model = 'forms.user.profile.lastName'
-                            placeholder = 'Фамилия'
-                            validators = { {
-                                valid: (lastName) => !validateLength(lastName, 1),
-                            } }
+                            disabled={isFetching}
+                            disabledStyle={Styles.disabledInputRedux}
+                            id="forms.user.profile.lastName"
+                            invalidStyle={Styles.invalidInput}
+                            model="forms.user.profile.lastName"
+                            placeholder="Фамилия"
+                            validators={{
+                                valid: lastName => !validateLength(lastName, 1),
+                            }}
                         />
-                        <button className = { buttonStyle } disabled = { isFetching } type = 'submit'>
+                        <button
+                            className={buttonStyle}
+                            disabled={isFetching}
+                            type="submit">
                             {buttonMessage}
                         </button>
                     </div>
-                    <Link to = { book.newPassword }>сменить пароль →</Link>
+                    <Link to={book.newPassword}>сменить пароль →</Link>
                 </div>
             </Form>
         );

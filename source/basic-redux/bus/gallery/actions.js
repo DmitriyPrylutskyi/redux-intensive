@@ -1,25 +1,25 @@
 // Types
 import {
-    SHOW_NEXT_PHOTO,
-    SHOW_PREVIOUS_PHOTO,
-    SHOW_SELECTED_PHOTO,
+    SHOW_NEXT_IMAGE,
+    SHOW_PREVIOUS_IMAGE,
+    SHOW_SELECTED_IMAGE,
 } from './types';
 
-export const showNextPhoto = () => {
+export const showNextImage = () => {
     return {
-        type: SHOW_NEXT_PHOTO,
+        type: SHOW_NEXT_IMAGE,
     };
 };
 
-export const showPreviousPhoto = () => {
+export const showPreviousImage = () => {
     return {
-        type: SHOW_PREVIOUS_PHOTO,
+        type: SHOW_PREVIOUS_IMAGE,
     };
 };
 
-export const showSelectedPhoto = (photoIndex) => {
+export const showSelectedImage = (photoIndex) => {
     return {
-        type:    SHOW_SELECTED_PHOTO,
+        type:    SHOW_SELECTED_IMAGE,
         payload: photoIndex,
     };
 };

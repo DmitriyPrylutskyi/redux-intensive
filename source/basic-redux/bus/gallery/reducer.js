@@ -1,52 +1,52 @@
-// Photos
-import photo1 from '../../../theme/assets/photos/1.jpeg';
-import photo2 from '../../../theme/assets/photos/2.jpeg';
-import photo3 from '../../../theme/assets/photos/3.jpeg';
-import photo4 from '../../../theme/assets/photos/4.jpeg';
+// Images
+import image1 from '../../../theme/assets/images/1.jpeg';
+import image2 from '../../../theme/assets/images/2.jpeg';
+import image3 from '../../../theme/assets/images/3.jpeg';
+import image4 from '../../../theme/assets/images/4.jpeg';
 
 // Types
 import {
-    SHOW_NEXT_PHOTO,
-    SHOW_PREVIOUS_PHOTO,
-    SHOW_SELECTED_PHOTO,
+    SHOW_NEXT_IMAGE,
+    SHOW_PREVIOUS_IMAGE,
+    SHOW_SELECTED_IMAGE,
 } from './types';
 
 const initialState = {
-    photos: [
-        { id: '1', url: photo1 },
-        { id: '2', url: photo2 },
-        { id: '3', url: photo3 },
-        { id: '4', url: photo4 },
+    images: [
+        { id: '123', url: image1 },
+        { id: '456', url: image2 },
+        { id: '789', url: image3 },
+        { id: '987', url: image4 },
     ],
-    selectedPhotoIndex: 0,
+    selectedImageIndex: 0,
 };
 
 export const galleryReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SHOW_NEXT_PHOTO:
-            if (state.selectedPhotoIndex === state.photos.length - 1) {
+        case SHOW_NEXT_IMAGE:
+            if (state.selectedImageIndex === state.images.length - 1) {
                 return state;
             }
 
             return {
                 ...state,
-                selectedPhotoIndex: state.selectedPhotoIndex + 1,
+                selectedImageIndex: state.selectedImageIndex + 1,
             };
 
-        case SHOW_PREVIOUS_PHOTO:
-            if (state.selectedPhotoIndex === 0) {
+        case SHOW_PREVIOUS_IMAGE:
+            if (state.selectedImageIndex === 0) {
                 return state;
             }
 
             return {
                 ...state,
-                selectedPhotoIndex: state.selectedPhotoIndex - 1,
+                selectedImageIndex: state.selectedImageIndex - 1,
             };
 
-        case SHOW_SELECTED_PHOTO:
+        case SHOW_SELECTED_IMAGE:
             return {
                 ...state,
-                selectedPhotoIndex: Number(action.payload),
+                selectedImageIndex: action.payload,
             };
 
         default:
